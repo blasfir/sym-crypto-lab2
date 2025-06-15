@@ -1,6 +1,12 @@
-from lab1 import letter_frequencies
 alphabet_with_e = 'абвгдеёжзийклмнопрстуфхцчшщъыьэюя'
 alphabet = 'абвгдежзийклмнопрстуфхцчшщъыьэюя'
+
+def letter_frequencies(text, alphabet):
+    result = []
+    for char in alphabet:
+        count = text.count(char)
+        result.append(count)
+    return result
 
 def clean_text(text):
     text = text.lower().replace('ё', 'е')
@@ -75,6 +81,23 @@ def key_len(text, max_key_len=30):
             best_ic_diff = ic_diff
             best_key_len = k_len
     return best_key_len
+
+def show_ic_values(text, max_key_len=30):
+    text = clean_text(text)
+    for k_len in range(1, max_key_len + 1):
+        groups = []
+        for _ in range(k_len):
+            groups.append('')
+        for i in range(len(text)):
+            group_index = i % k_len
+            groups[group_index] += text[i]
+        total_ic = 0
+        for j in range(len(groups)):
+            group_ic = index_of_coincidence(groups[j])
+            total_ic += group_ic
+        average_ic = total_ic / k_len
+        print()
+        print(f"{k_len}: {average_ic:.6f}")
 
 #визначити символи ключа за допомогою порівняння
 def vigenere_key_comparison(text, key_len):
@@ -184,3 +207,11 @@ dectypted_text4 = vigenere(text4, key, 'decrypt')
 
 print()
 print(f"Розшифрований текст:\n{dectypted_text4}")
+
+"""s = 'уушнэхяуеуыььарецшыбшивцмкэьфдкфтзршлхцрпаъычеблтхпбьроафтюрашбцтиыбьъюбяцбаъъшрсеццшиуусыюуэаьбйьръомцпьаюыъоафтзчцыныбмквбвъуъцбъюрохугяхсаацспнрцроцщйьэьгимхдрзяэксыжяфуэнрчхбвуццуулббрндтдрйлфркюбуюхыятфчцхрпшгэьуаюсаяухсуоьврвщжыэйчьунфеттруцыйняоэнчдъкыучцюцкцгтчшдзццэьцдыьгышътъниикэнчцвьвуэыаскыгсэуатгьообуэмкыщшэбшгаьуььбшыждытлнцнюьтамщрсцуддьщюощажъгэадчсскщтщущъьъяючьдыхчнцрфюооуюпммчцяъъющщгьсоецюькщмнняэшцебувястюоскчоццьмеущшаяущясъьхиыцнающъебкчйпотхсуушршъщфщмьуыл'
+print()
+print(vigenere(s, key, 'decrypt'))
+print()
+print(vigenere(s, text4_key_comparison, 'decrypt'))
+
+show_ic_values(text)"""
